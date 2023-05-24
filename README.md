@@ -1,8 +1,6 @@
-
 # 📮Email responder
 
 A Node.js app that is able to respond to emails sent to your Gmail mailbox while you’re out on a vacation 🚞🚵🏻‍♂️ (or not in the mood of responding😅).
-
 
 ## 💻 Technologies & Libraries
 
@@ -20,6 +18,7 @@ A Node.js app that is able to respond to emails sent to your Gmail mailbox while
 
 * To run this code, you have to create a project in Google Cloud Platform and don't forget to enable the required APIs. 
 * The app is coded in most simplified manner and it might need additional libraries and technologies in the production environment for error handling, logging, configuration management, etc. to make this application more robust.
+
 ## 🚀 Scope of Improvement
 
 Here are few areas in which this application can be improved:
@@ -28,8 +27,8 @@ Here are few areas in which this application can be improved:
 
 * Basically, to get the changes in the mailbox of user there are main 2 mechanisms. Poll-based(Here used) and Pub/Sub mechanism. Pub/Sub mechanisms can be used to give instant reply to the sender as it will update the server each time a new email is received and this will also help us to **reduce the network cost** as in current method we are repeatedly checking the mailbox for the changes.
 
+* Currently, this code will only work for my personal email id (as the project is in testing phase), but we can make the code useful for anyone. We can also extend the project and create a frontend part for the same so that it can also be used by non-techies.
 
 ## Acknowledgements
 
  - [Google Gmail API Documentation](https://developers.google.com/gmail/api/guides)
-
