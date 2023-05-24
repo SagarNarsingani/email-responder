@@ -88,6 +88,7 @@ async function checkMails(auth) {
 
     const userId = 'me';
     const labelId = 'Label_649001856232389286';
+    const emailId = 'narsinganisagarh@gmail.com';
 
     // when the server starts for the first time, 
     // we will start replying the mails which were recived an hour ago.
@@ -116,9 +117,12 @@ async function checkMails(auth) {
             // threadId of thread in which current mail belongs
             const threadId = mail.data.threadId;
 
+            // helps when user gets reply from other end...
+            const flag = mail.data.snippet.includes(emailId);
+
             // mail should not be labeled as 'replied' as well as the thread also should not be
             // there in replied array...
-            if(!mail.data.labelIds.includes(labelId) && !replied.includes(threadId)){
+            if(!flag && !mail.data.labelIds.includes(labelId) && !replied.includes(threadId)){
                 // as we have replied to this thread we push it in the replied array,
                 // so that we don't reply to emails belonging to current thread
                 replied.push(threadId);
@@ -166,7 +170,7 @@ async function checkMails(auth) {
                 });
             } else {
                 // incase we encountered a mail, that belongs to a thread in which user has already replied.
-                console.log('Already Replied to thread:', mail.data.threadId);
+                // console.log('Already Replied to thread:', mail.data.threadId);
             }
 
             // remove the label of unread from the mail
@@ -175,23 +179,24 @@ async function checkMails(auth) {
                 id: msg.id,
                 requestBody: {
                     removeLabelIds: ['UNREAD'],
-                    addLabelIds: []
+                    addLabelIds: [labelId]
                 }
             });
         })
     }
-}
 
+    return;
+}
 
 async function listen(auth){
     console.log('Checking the mails...');
-    await checkMails(auth);
+    await checkMails(auth).then(_ => console.log('Replied to all unread mails!'));
 
     // setting a timeout, so that after sometime (random interval), 
     // the server can check for new emails again...
     const lower_lim = 45, upper_lim = 120;
     const interval = Math.floor(lower_lim + Math.random() * (upper_lim-lower_lim+1));
-    // console.log('Interval:', interval, 'Seconds');
+    console.log('Interval:', interval, 'Seconds');
     setTimeout(async () => await listen(auth), interval * 1000)
 }
 
